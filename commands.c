@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200809L // Enable POSIX features for popen
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,6 +54,29 @@ void touch(char **args, int argc) {
   }
 }
 
+void exec(char **args, int argc) {
+
+  char buffer[1024];
+
+  char *cmd = args[1];
+
+  FILE *fp;
+  fp = popen(cmd, "r");
+
+  if (fp == NULL) {
+    printf("popen failed");
+  }
+
+  while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+    printf("%s", buffer);
+  }
+
+  // Close the file pointer
+  if (pclose(fp) == -1) {
+    printf("pclose failed");
+  }
+}
+
 void mdir(char **args, int argc) {
 
   struct stat st = {0};
@@ -65,9 +89,9 @@ void mdir(char **args, int argc) {
 }
 
 void echo(char **args, int argc) {
- //doesnt work, do not try 
+  // doesnt work, do not try
 
-	char *txt = args[2];
+  char *txt = args[2];
 
   if (argc == 1) {
     printf("ee");
