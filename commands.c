@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 void help(char **args, int argc) { printf("find help - %s \n", args[0]); }
 void ls(char **args, int argc) {
@@ -36,6 +38,64 @@ void pwd(char **args, int argc) {
     printf("%s\n", cwd);
   } else {
     printf("getcwd() error");
+  }
+}
+
+void touch(char **args, int argc) {
+
+  char *path = args[1];
+  FILE *fptr;
+
+  fptr = fopen(path, "w");
+
+  if (fptr == NULL) {
+    printf("Error openning file");
+  }
+}
+
+void mdir(char **args, int argc) {
+
+  struct stat st = {0};
+  char *path = args[1];
+  if (stat(path, &st) == -1) {
+    mkdir(path, 0777);
+  } else {
+    printf("error creating folder");
+  }
+}
+
+void echo(char **args, int argc) {
+ //doesnt work, do not try 
+
+	char *txt = args[2];
+
+  if (argc == 1) {
+    printf("ee");
+    printf("%s\n", txt);
+  }
+  if (argc == 2) {
+    char *path = args[2];
+
+    FILE *fptr;
+
+    // Open a file in writing mode
+    fptr = fopen(path, "w");
+
+    // Write some text to the file
+    fprintf(fptr, txt);
+
+    // Close the file
+    fclose(fptr);
+    printf("HERE");
+  }
+}
+void rm(char **args, int argc) {
+
+  char *path = args[1];
+
+  if (remove(path) != 0) {
+
+    printf("Couldnt delete this file");
   }
 }
 
