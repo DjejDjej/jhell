@@ -99,7 +99,6 @@ void echo(char **args, int argc) {
   }
   if (argc == 2) {
     char *path = args[2];
-
     FILE *fptr;
 
     // Open a file in writing mode
@@ -123,6 +122,8 @@ void rm(char **args, int argc) {
   }
 }
 
+void clear(char **args, int argc) { system("clear"); }
+
 void cd(char **args, int argc) {
 
   char *path = args[1];
@@ -137,5 +138,12 @@ void cd(char **args, int argc) {
 
   if (chdir(path) != 0) {
     printf("Error changing folder.\n");
+  }
+}
+
+void prompt() {
+  char cwd[1024];
+  if (getcwd(cwd, sizeof(cwd)) != NULL) {
+    printf("%s$: ", cwd);
   }
 }

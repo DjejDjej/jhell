@@ -11,7 +11,6 @@ comm getCommand(char **args, comm c[]) {
   return c[0];
 }
 
-
 int proccesCommand(char **argv, int argc) {
   if (argc < 1) {
     commands[0].command(argv, argc);
@@ -23,7 +22,7 @@ int proccesCommand(char **argv, int argc) {
     c.command(argv, argc);
   } else {
 
-     printf("Invalid Syntax");
+    printf("Invalid Syntax");
     commands[0].command(argv, argc);
   }
   return 0;
@@ -64,7 +63,8 @@ void getinput() {
 int main() {
 
   for (;;) {
-    getinput();
+   prompt();
+   getinput();
     printf("\n");
   }
 
