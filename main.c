@@ -2,18 +2,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+void getHelp(comm c[]) {
+  for (size_t i = 0; strcmp(c[i].name, "\0") != 0; i++) {
+    printf("%s \n", c[i].name);
+  }
+}
+
 comm getCommand(char **args, comm c[]) {
   for (size_t i = 0; strcmp(c[i].name, "\0") != 0; i++) {
     if (strcmp(c[i].name, args[0]) == 0) {
       return c[i];
     }
   }
+
+  getHelp(commands);
   return c[0];
 }
 
 int proccesCommand(char **argv, int argc) {
   if (argc < 1) {
-    commands[0].command(argv, argc);
+    getHelp(commands);
     return 1;
   }
 
@@ -21,9 +30,8 @@ int proccesCommand(char **argv, int argc) {
   if (argc > c.argc) {
     c.command(argv, argc);
   } else {
-
     printf("Invalid Syntax");
-    commands[0].command(argv, argc);
+    getHelp(commands);
   }
   return 0;
 }
@@ -63,8 +71,8 @@ void getinput() {
 int main() {
 
   for (;;) {
-   prompt();
-   getinput();
+    prompt();
+    getinput();
     printf("\n");
   }
 
